@@ -51,13 +51,12 @@ cd /etc
 chown -R galaxy:galaxy galaxy-server
 
 # Edit galaxy user's crontab to run Galaxy at startup.
-su galaxy
-cd ~
-crontab -l > crontab_file.tmp
-echo "@reboot sh /etc/galaxy-server/run.sh" >> crontab_file.tmp
-crontab crontab_file.tmp
-rm crontab_file
-exit
+sudo -u galaxy cd ~
+sudo -u galaxy crontab -l > crontab_file.tmp
+sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> crontab_file.tmp
+sudo -u galaxy crontab crontab_file.tmp
+sudo -u galaxy rm crontab_file
+sudo -u galaxy exit
 
 echo "Setup is complete! Please reboot your computer so Galaxy can start."
 
