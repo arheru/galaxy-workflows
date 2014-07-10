@@ -53,8 +53,4 @@ crontab crontab_file.tmp
 rm crontab_file
 exit
 
-# Start the Galaxy web server
-cd galaxy-server
-sh run.sh
-
 exit 0
