@@ -4,13 +4,16 @@
 ### Run as root.
 
 # Define a directory for Galaxy's shared data, e.g. for analyses.
+# If DATA_DIR variable has not been edited, the script will prompt the user
+# to prepare the data directory and 
 $DATA_DIR=""
-if [ -z $DATA_DIR ]; then
+if [ -z "$DATA_DIR" ]; then
     echo "You must define a directory Galaxy will use for variable \$DATA_DIR"
+    echo "Please decide on a directory where users should find shared data, e.g. for analyses."
     echo "Please edit this file and run again."
     exit
 else
-	if [ -d $DATA_DIR -a -w $DATA_DIR ]; then
+	if [ -d "$DATA_DIR" -a -w "$DATA_DIR" ]; then
     	echo "You need to specify a directory for which this user has permission to write."
     	exit
     fi
