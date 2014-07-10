@@ -20,10 +20,13 @@ else
 fi
 
 # Stop running the galaxy server
-service galaxy stop 
+service galaxy stop
+
+# Change the port that the old, preinstalled Galaxy listens to
+cd /etc
+sed 's/#port = 8080/port = 8081/' universe_wsgi.ini > universe_wsgi.ini.tmp && mv -f universe_wsgi.ini.tmp universe_wsgi.ini
 
 # Download Galaxy using Mercurial (hg)
-cd /etc
 apt-get -y install mercurial
 hg clone https://bitbucket.org/galaxy/galaxy-dist/
 
