@@ -6,7 +6,7 @@
 # Define a directory for Galaxy's shared data, e.g. for analyses.
 # If DATA_DIR variable has not been edited, the script will prompt the user
 # to prepare the data directory and 
-$DATA_DIR=""
+DATA_DIR=""
 if [ -z "$DATA_DIR" ]; then
     echo "You must define a directory Galaxy will use for variable \$DATA_DIR"
     echo "Please decide on a directory where users should find shared data, e.g. for analyses."
