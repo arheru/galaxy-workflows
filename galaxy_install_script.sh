@@ -22,11 +22,8 @@ fi
 # Stop running the galaxy server
 service galaxy stop
 
-# Change the port that the old, preinstalled Galaxy listens to
-cd /etc
-sed 's/#port = 8080/port = 8081/' universe_wsgi.ini > universe_wsgi.ini.tmp && mv -f universe_wsgi.ini.tmp universe_wsgi.ini
-
 # Download Galaxy using Mercurial (hg)
+cd /etc
 apt-get -y install mercurial
 hg clone https://bitbucket.org/galaxy/galaxy-dist/
 
@@ -43,8 +40,7 @@ sed 's/#library_import_dir = None/library_import_dir = $DATA_DIR/' universe_wsgi
 sed 's/#allow_library_path_paste = False/allow_library_path_paste = True/' universe_wsgi.ini > universe_wsgi.ini.tmp && mv -f universe_wsgi.ini.tmp universe_wsgi.ini
 
 # Create a Galaxy system user
-# useradd -r -s /bin/false galaxy
-useradd -s /bin/bash galaxy
+useradd -s /bin/bash galaxy -d /home/galaxy
 
 # Change ownership of galaxy-server/ to galaxy user
 cd /etc
@@ -55,8 +51,7 @@ sudo -u galaxy cd ~
 sudo -u galaxy crontab -l > crontab_file.tmp
 sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> crontab_file.tmp
 sudo -u galaxy crontab crontab_file.tmp
-sudo -u galaxy rm crontab_file
-sudo -u galaxy exit
+sudo -u galaxy rm crontab_file.tmp
 
 echo "Setup is complete! Please reboot your computer so Galaxy can start."
 
