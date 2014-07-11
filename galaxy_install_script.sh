@@ -40,7 +40,7 @@ sed 's/#library_import_dir = None/library_import_dir = $DATA_DIR/' universe_wsgi
 sed 's/#allow_library_path_paste = False/allow_library_path_paste = True/' universe_wsgi.ini > universe_wsgi.ini.tmp && mv -f universe_wsgi.ini.tmp universe_wsgi.ini
 
 # Create a Galaxy system user
-useradd -s /bin/bash -d /home/galaxy galaxy
+useradd -s /bin/bash -m galaxy
 sudo -u galaxy mkdir /home/galaxy/.python-eggs
 export PYTHON_EGG_CACHE=/home/galaxy/.python-eggs
 
