@@ -40,14 +40,17 @@ sed 's/#library_import_dir = None/library_import_dir = $DATA_DIR/' universe_wsgi
 sed 's/#allow_library_path_paste = False/allow_library_path_paste = True/' universe_wsgi.ini > universe_wsgi.ini.tmp && mv -f universe_wsgi.ini.tmp universe_wsgi.ini
 
 # Create a Galaxy system user
-useradd -s /bin/bash galaxy -d /home/galaxy
+useradd -s /bin/bash -d /home/galaxy galaxy
+sudo -u galaxy mkdir ~/.python-eggs
+export PYTHON_EGG_CACHE=~/.python-eggs
 
 # Change ownership of galaxy-server/ to galaxy user
 cd /etc
 chown -R galaxy:galaxy galaxy-server
 
-# Edit galaxy user's crontab to run Galaxy at startup.
+# Edit galaxy user's crontab (sudo as user 'galaxy') to run Galaxy at startup.
 sudo -u galaxy cd ~
+sudo -u galaxy touch crontab_file.tmp
 sudo -u galaxy crontab -l > crontab_file.tmp
 sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> crontab_file.tmp
 sudo -u galaxy crontab crontab_file.tmp
