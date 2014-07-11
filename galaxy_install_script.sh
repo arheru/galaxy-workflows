@@ -41,20 +41,19 @@ sed 's/#allow_library_path_paste = False/allow_library_path_paste = True/' unive
 
 # Create a Galaxy system user
 useradd -s /bin/bash -d /home/galaxy galaxy
-sudo -u galaxy mkdir ~/.python-eggs
-export PYTHON_EGG_CACHE=~/.python-eggs
+sudo -u galaxy mkdir /home/galaxy/.python-eggs
+export PYTHON_EGG_CACHE=/home/galaxy/.python-eggs
 
 # Change ownership of galaxy-server/ to galaxy user
 cd /etc
 chown -R galaxy:galaxy galaxy-server
 
 # Edit galaxy user's crontab (sudo as user 'galaxy') to run Galaxy at startup.
-sudo -u galaxy cd ~
-sudo -u galaxy touch crontab_file.tmp
-sudo -u galaxy crontab -l > crontab_file.tmp
-sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> crontab_file.tmp
-sudo -u galaxy crontab crontab_file.tmp
-sudo -u galaxy rm crontab_file.tmp
+sudo -u galaxy touch /home/galaxy/crontab_file.tmp
+sudo -u galaxy crontab -l > /home/galaxy/crontab_file.tmp
+sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> /home/galaxy/crontab_file.tmp
+sudo -u galaxy crontab /home/galaxy/crontab_file.tmp
+sudo -u galaxy rm /home/galaxy/crontab_file.tmp
 
 echo "Setup is complete! Please reboot your computer so Galaxy can start."
 
