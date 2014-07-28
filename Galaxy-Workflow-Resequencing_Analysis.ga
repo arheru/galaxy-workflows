@@ -1,0 +1,345 @@
+{
+    "a_galaxy_workflow": "true", 
+    "annotation": "", 
+    "format-version": "0.1", 
+    "name": "Resequencing Analysis", 
+    "steps": {
+        "0": {
+            "annotation": "", 
+            "id": 0, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 10, 
+                "top": 10
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "1": {
+            "annotation": "", 
+            "id": 1, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 10, 
+                "top": 130
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "2": {
+            "annotation": "", 
+            "id": 2, 
+            "input_connections": {}, 
+            "inputs": [
+                {
+                    "description": "", 
+                    "name": "Input Dataset"
+                }
+            ], 
+            "name": "Input dataset", 
+            "outputs": [], 
+            "position": {
+                "left": 10, 
+                "top": 250
+            }, 
+            "tool_errors": null, 
+            "tool_id": null, 
+            "tool_state": "{\"name\": \"Input Dataset\"}", 
+            "tool_version": null, 
+            "type": "data_input", 
+            "user_outputs": []
+        }, 
+        "3": {
+            "annotation": "", 
+            "id": 3, 
+            "input_connections": {
+                "input_file": {
+                    "id": 1, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "FASTQ Groomer", 
+            "outputs": [
+                {
+                    "name": "output_file", 
+                    "type": "fastqsanger"
+                }
+            ], 
+            "position": {
+                "left": 230, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4", 
+            "tool_state": "{\"__page__\": 0, \"input_file\": \"null\", \"input_type\": \"\\\"sanger\\\"\", \"__rerun_remap_job_id__\": null, \"options_type\": \"{\\\"output_type\\\": \\\"sanger\\\", \\\"force_quality_encoding\\\": \\\"ascii\\\", \\\"options_type_selector\\\": \\\"advanced\\\", \\\"__current_case__\\\": 1, \\\"summarize_input\\\": \\\"summarize_input\\\"}\", \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "4": {
+            "annotation": "", 
+            "id": 4, 
+            "input_connections": {
+                "input_file": {
+                    "id": 2, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "FASTQ Groomer", 
+            "outputs": [
+                {
+                    "name": "output_file", 
+                    "type": "fastqsanger"
+                }
+            ], 
+            "position": {
+                "left": 230, 
+                "top": 130
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4", 
+            "tool_state": "{\"__page__\": 0, \"input_file\": \"null\", \"input_type\": \"\\\"sanger\\\"\", \"__rerun_remap_job_id__\": null, \"options_type\": \"{\\\"output_type\\\": \\\"sanger\\\", \\\"force_quality_encoding\\\": \\\"ascii\\\", \\\"options_type_selector\\\": \\\"advanced\\\", \\\"__current_case__\\\": 1, \\\"summarize_input\\\": \\\"summarize_input\\\"}\", \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "5": {
+            "annotation": "", 
+            "id": 5, 
+            "input_connections": {
+                "genomeSource|ownFile": {
+                    "id": 0, 
+                    "output_name": "output"
+                }, 
+                "paired|input1": {
+                    "id": 3, 
+                    "output_name": "output_file"
+                }, 
+                "paired|input2": {
+                    "id": 4, 
+                    "output_name": "output_file"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Map with BWA for Illumina", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "sam"
+                }
+            ], 
+            "position": {
+                "left": 450, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/greg/bwa_base/bwa_wrapper/1.2.3", 
+            "tool_state": "{\"genomeSource\": \"{\\\"refGenomeSource\\\": \\\"history\\\", \\\"ownFile\\\": null, \\\"__current_case__\\\": 1}\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"paired\": \"{\\\"input2\\\": null, \\\"sPaired\\\": \\\"paired\\\", \\\"input1\\\": null, \\\"__current_case__\\\": 1}\", \"params\": \"{\\\"outputTopN\\\": \\\"3\\\", \\\"suboptAlign\\\": \\\"\\\", \\\"gapOpenPenalty\\\": \\\"11\\\", \\\"maxGapOpens\\\": \\\"1\\\", \\\"mismatchPenalty\\\": \\\"3\\\", \\\"fracMissingAligns\\\": \\\"0.04\\\", \\\"disallowIndel\\\": \\\"5\\\", \\\"outputTopNDisc\\\": \\\"10\\\", \\\"disallowLongDel\\\": \\\"16\\\", \\\"readGroup\\\": {\\\"rgpl\\\": \\\"ILLUMINA\\\", \\\"rgpi\\\": \\\"\\\", \\\"rgsm\\\": \\\"0000\\\", \\\"rgpg\\\": \\\"\\\", \\\"rgid\\\": \\\"sample_1\\\", \\\"specReadGroup\\\": \\\"yes\\\", \\\"rgds\\\": \\\"\\\", \\\"rgfo\\\": \\\"\\\", \\\"rgdt\\\": \\\"\\\", \\\"__current_case__\\\": 0, \\\"rgpu\\\": \\\"\\\", \\\"rgcn\\\": \\\"\\\", \\\"rglb\\\": \\\"smp_1_lib\\\", \\\"rgks\\\": \\\"\\\"}, \\\"maxInsertSize\\\": \\\"500\\\", \\\"__current_case__\\\": 1, \\\"maxEditDist\\\": \\\"0\\\", \\\"gapExtensPenalty\\\": \\\"4\\\", \\\"maxGapExtens\\\": \\\"-1\\\", \\\"maxEditDistSeed\\\": \\\"2\\\", \\\"noIterSearch\\\": \\\"False\\\", \\\"seed\\\": \\\"-1\\\", \\\"maxOccurPairing\\\": \\\"100000\\\", \\\"source_select\\\": \\\"full\\\"}\", \"suppressHeader\": \"\\\"False\\\"\", \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "6": {
+            "annotation": "", 
+            "id": 6, 
+            "input_connections": {
+                "source|input1": {
+                    "id": 5, 
+                    "output_name": "output"
+                }, 
+                "source|ref_file": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "SAM-to-BAM", 
+            "outputs": [
+                {
+                    "name": "output1", 
+                    "type": "bam"
+                }
+            ], 
+            "position": {
+                "left": 670, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.4", 
+            "tool_state": "{\"source\": \"{\\\"index_source\\\": \\\"history\\\", \\\"ref_file\\\": null, \\\"input1\\\": null, \\\"__current_case__\\\": 1}\", \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\", \"__page__\": 0}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "7": {
+            "annotation": "", 
+            "id": 7, 
+            "input_connections": {
+                "reference_source|input_bam": {
+                    "id": 6, 
+                    "output_name": "output1"
+                }, 
+                "reference_source|ref_file": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Realigner Target Creator", 
+            "outputs": [
+                {
+                    "name": "output_interval", 
+                    "type": "gatk_interval"
+                }, 
+                {
+                    "name": "output_log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 890, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/devteam/realigner_target_creator/gatk_realigner_target_creator/0.0.4", 
+            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"gatk_param_type\": \"{\\\"gatk_param_type_selector\\\": \\\"basic\\\", \\\"__current_case__\\\": 0}\", \"analysis_param_type\": \"{\\\"analysis_param_type_selector\\\": \\\"basic\\\", \\\"__current_case__\\\": 0}\", \"reference_source\": \"{\\\"ref_file\\\": null, \\\"reference_source_selector\\\": \\\"history\\\", \\\"input_bam\\\": null, \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\", \"rod_bind\": \"[]\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "8": {
+            "annotation": "", 
+            "id": 8, 
+            "input_connections": {
+                "reference_source|input_bam": {
+                    "id": 6, 
+                    "output_name": "output1"
+                }, 
+                "reference_source|ref_file": {
+                    "id": 0, 
+                    "output_name": "output"
+                }, 
+                "target_intervals": {
+                    "id": 7, 
+                    "output_name": "output_interval"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Indel Realigner", 
+            "outputs": [
+                {
+                    "name": "output_bam", 
+                    "type": "bam"
+                }, 
+                {
+                    "name": "output_log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 1110, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "testtoolshed.g2.bx.psu.edu/repos/devteam/indel_realigner/gatk_indel_realigner/0.0.6", 
+            "tool_state": "{\"__page__\": 0, \"knowns_only\": \"\\\"False\\\"\", \"gatk_param_type\": \"{\\\"gatk_param_type_selector\\\": \\\"basic\\\", \\\"__current_case__\\\": 0}\", \"lod_threshold\": \"\\\"5.0\\\"\", \"analysis_param_type\": \"{\\\"analysis_param_type_selector\\\": \\\"basic\\\", \\\"__current_case__\\\": 0}\", \"target_intervals\": \"null\", \"reference_source\": \"{\\\"ref_file\\\": null, \\\"reference_source_selector\\\": \\\"history\\\", \\\"input_bam\\\": null, \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/etc/galaxy-server/tool-data/shared/ucsc/chrom/hg19.len\\\"\", \"__rerun_remap_job_id__\": null, \"rod_bind\": \"[]\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "9": {
+            "annotation": "", 
+            "id": 9, 
+            "input_connections": {
+                "refOrHistory|input1": {
+                    "id": 8, 
+                    "output_name": "output_bam"
+                }, 
+                "refOrHistory|ownFile": {
+                    "id": 0, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Generate pileup", 
+            "outputs": [
+                {
+                    "name": "output1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1330, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2", 
+            "tool_state": "{\"__page__\": 0, \"c\": \"{\\\"consensus\\\": \\\"no\\\", \\\"__current_case__\\\": 0}\", \"indels\": \"\\\"no\\\"\", \"refOrHistory\": \"{\\\"input1\\\": null, \\\"reference\\\": \\\"history\\\", \\\"__current_case__\\\": 1, \\\"ownFile\\\": null}\", \"chromInfo\": \"\\\"/etc/galaxy-server/database/files/000/dataset_61.dat\\\"\", \"__rerun_remap_job_id__\": null, \"lastCol\": \"\\\"no\\\"\", \"mapCap\": \"\\\"60\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }, 
+        "10": {
+            "annotation": "", 
+            "id": 10, 
+            "input_connections": {
+                "input": {
+                    "id": 9, 
+                    "output_name": "output1"
+                }
+            }, 
+            "inputs": [], 
+            "name": "Filter pileup", 
+            "outputs": [
+                {
+                    "name": "out_file1", 
+                    "type": "tabular"
+                }
+            ], 
+            "position": {
+                "left": 1550, 
+                "top": 10
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/pileup_parser/pileup_parser/1.0.2", 
+            "tool_state": "{\"snps_only\": \"\\\"Yes\\\"\", \"__page__\": 0, \"qc_base\": \"\\\"Yes\\\"\", \"cvrg_cutoff\": \"\\\"3\\\"\", \"__rerun_remap_job_id__\": null, \"interval\": \"\\\"No\\\"\", \"pileup_type\": \"{\\\"type_select\\\": \\\"six\\\", \\\"__current_case__\\\": 1}\", \"input\": \"null\", \"diff\": \"\\\"No\\\"\", \"qv_cutoff\": \"\\\"20\\\"\", \"chromInfo\": \"\\\"/etc/galaxy-server/database/files/000/dataset_61.dat\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": []
+        }
+    }
+}
