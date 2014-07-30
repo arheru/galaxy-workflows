@@ -5,13 +5,15 @@ Resequencing Analysis Using Galaxy
 
 The aim of this exercise is to use the web service Galaxy to perform bioinformatic analyses in a graphical environment. A concept that Galaxy makes use of is the "workflow" - a scheme or sequence of separate analysis tools chained together to produce some kind of output. Some kind of data file, e.g. a genome sequence, is fed into the workflow; tools automatically perform their functions in a predetermined manner, and output files are produced that can be visualised or further analysed.
 Producing and disseminating workflows give the scientific community and research partners as much transparency as possible for reproducing results and for modifying the workflow for their particular needs.
-Most of the steps we are going to perform are going to use the basic settings of each tool in Galaxy. More detailed control can often be accessed in the tool dialog, and should the need arise, moving onto working with each tool using the command line interface (CLI).
+Most of the steps we are going to perform are going to use the basic settings of each tool in Galaxy. More detailed control can often be accessed in the tool dialog, and should the need for even more control arise, moving onto working with each tool using the command line interface (CLI).
 
 An online demo version of Galaxy can be found on https://usegalaxy.org
 
-The data we will work with comes from the 1000 Genomes Project. Because whole human genomes are very difficult to work with, we will use only a small portion of the human genome, a little over a megabase from chromosome 17. The program samtools was used to extract the data from the 1000 Genomes ftp site for just this region from all of the individuals from the CEU (CEPH Europeans from Utah) population who were low coverage (2-4x average) whole genome shotgun sequenced. We have 81 low coverage Illumina sequences, plus 63 Illumina exomes, and 15 low coverage 454 samples. There are 55 of these samples that were done both ways.
+The data we will work with comes from the 1000 Genomes Project. Because whole human genomes are very difficult to work with, we will use only a small portion of the human genome, a little over a megabase from chromosome 17. The program samtools was used to extract the data from the 1000 Genomes ftp site for just this region from all of the individuals from the CEU (CEPH Europeans from Utah) population who were low coverage (2-4x average) whole genome shotgun sequenced using the Illumina sequencing platform. We have 81 low coverage Illumina sequences, plus 63 Illumina exomes, and 15 low coverage 454 samples. There are 55 of these samples that were done both ways.
 
-We will walk through alignment, alignment processing and cleanup, quality recalibration, variant calling, and variant filtering. 
+We will walk through alignment, alignment processing and cleanup, variant calling, and variant filtering.
+
+
 -------------------------------
 Aligning reads with BWA
 
@@ -23,31 +25,38 @@ Before we can run BWA at all, we need a reference genome, and we need to perform
 
 
 Running BWA for paired end data is done in multiple steps. First we align each set of reads, then we combine the paired alignments (which also includes a realignment step using a more sensitive algorithm for unplaced mates). Let's start with one chunk of whole genome shotgun sequencing data from individual NA06984.
-
-# Step 2: Choose forward read dataset, e.g. "wgs/NA06984.ILLUMINA.low_coverage.17q_1.fq"
-# Step 3: Choose reverse read dataset, e.g. "wgs/NA06984.ILLUMINA.low_coverage.17q_2.fq"
-
-
 Both of our fastq read files are in Illumina 1.8+ format, but to continue with our analyses we need to convert the files to Sanger format.
 
-# Step 4: FASTQ Groomer on data from Step 2.
-# Step 5: FASTQ Groomer on data from Step 3.
+# Step 2: Choose forward read dataset, e.g. "wgs/NA06984.ILLUMINA.low_coverage.17q_1.fq"
+
+# Step 3: Choose reverse read dataset, e.g. "wgs/NA06984.ILLUMINA.low_coverage.17q_2.fq"
+
+# Step 4: "FASTQ Groomer" on data from Step 2.
+
+# Step 5: "FASTQ Groomer" on data from Step 3.
+
+
+-------------------------------
+Merge alignments with BWA
+
+After converting the formats to Sanger, the fastq files are used as input files is the next step, where we first align each strand to the reads in our fastq files, and then merge the two alignments - both using the program BWA, a popular aligner using the Burrows-Wheeler transform.
+
+# Step 6: "Map with BWA for Illumina" on data from Step 4 and 5. Uses reference genome data from Step 1.
+# Specify read groups in "BWA settings to use; Full parameter list". After specifying read groups, you will need to enter some required fields:
+#		Read group identiﬁer (ID)								e.g. "sample_1"
+#		Library name (LB)										e.g. "smp_1_lib"
+#		Platform/technology used to produce the reads (PL)		"ILLUMINA"
+#		Sample (SM).											e.g. "NA06984"
 
 
 -------------------------------
 Merge alignments with BWA:
 	- Use tool "Map with BWA for Illumina".
-	- Specify read groups in "BWA settings to use; Full parameter list". After specifying read groups, you will need to enter some required fields:
-		Read group identiﬁer (ID)								e.g. "sample_1"
-		Library name (LB)										e.g. "smp_1_lib"
-		Platform/technology used to produce the reads (PL)		"ILLUMINA"
-		Sample (SM).											e.g. "NA06984"
 	- BWA produces binary .sai files that are processed and merged into .sam
-	- .sam uncompressed human-readable, so we need to covert into binary .bam files using "sam_to_bam" install from main toolshed into category "Convert formats". Sam-to-bam sorts and indexes the file automatically.
+	- .sam uncompressed human-readable, so we need to convert into binary .bam files using "sam_to_bam" install from main toolshed into category "Convert formats". Sam-to-bam sorts and indexes the file automatically.
 
--------------------------------
-Merge alignments with BWA:
 
+	
 
 
 -------------------------------
