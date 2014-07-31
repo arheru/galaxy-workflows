@@ -55,6 +55,4 @@ sudo -u galaxy echo "@reboot sh /etc/galaxy-server/run.sh" >> /home/galaxy/cront
 sudo -u galaxy crontab /home/galaxy/crontab_file.tmp
 sudo -u galaxy rm /home/galaxy/crontab_file.tmp
 
-echo "Setup is complete! Please reboot your computer so Galaxy can start."
-
 exit 0
