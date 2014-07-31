@@ -1,6 +1,4 @@
 
-
--------------------------------
 Resequencing Analysis Using Galaxy
 
 The aim of this exercise is to use the web service Galaxy to perform bioinformatic analyses in a graphical environment. A concept that Galaxy makes use of is the "workflow" - a scheme or sequence of separate analysis tools chained together to produce some kind of output. Some kind of data file, e.g. a genome sequence, is fed into the workflow; tools automatically perform their functions in a predetermined manner, and output files are produced that can be visualised or further analysed.
@@ -64,18 +62,47 @@ First, we'll realign locally around potential indels. This is done in two steps:
 # Step 8: "Realigner Target Creator" on data from Step 7. Uses reference genome data from Step 1.
 
 
-Now we feed our gatk_intervals file back into a different GATK tool to actually perform the realignments.
+Now we feed our gatk_intervals file back into a different GATK tool to actually perform the realignments. GATK automatically indexes that bam for us.
 
 # Step 9: "Indel Realigner" on data from Step 8. Uses reference genome data from Step 1.
 
 
--------------------------------
+Next, we're going to mark duplicate reads using Picard. The resulting bam file with marked duplicates will be used in the next two steps.
+
+# Step 10: "Mark Duplicate Reads" on data from Step 9.
+
+
+Finally, we want to perform quality recalibration with GATK. We do this last, because we want all the data to be as clean as possible when we get here. This also happens in two steps. First, we compute all the covariation of quality with various other factors.
+We need to feed it our bam file and our ref file. We also need a list of known sites. Otherwise, GATK will think all the real SNPs in our data are errors.We're using calls from 1000 Genomes, which is a good plan for human (although a bit circular in our case). If you are sequencing an organism with few known sites, you could try calling once and then using the most confident variants as known sites (which should remove most of the non-erroneous bases). Failure to remove real SNPs from the recalibration will result in globally lower quality scores. We also give it the name of a csv file we want it to write out containing the covariation data.
+
+# Step 11: "Count Covariates" on data from Step 10. Uses reference genome data from Step 1.
+# Under tool option "Covariates to be used in the recalibration", tick these boxes:
+# 	- QualityScoreCovariate
+#	- CycleCovariate
+#	- DinucCovariate
+
+# Step 12: "Table Recalibration" on data from Step 10. Uses recalibration csv from Step 11, and reference genome data from Step 1.
 
 
 -------------------------------
-Call variants:
-	- Samtools' Generate pileup (sam_pileup) from main toolshed.
-		- Make sure pileup output is considered "pileup" data rather than "tabular". Edit the output in your history, and under the "datatypes" tab, set new type to "pileup".
-	- Filter pileup using Samtools' pileup_parser from main toolshed.
+Call SNP variants
 
-Display filtered pileup data using e.g. IGV or UCSC Genome Browser
+We now want to find any SNPs in our sample, and so we want to generate pileup data, or read coverage, from the cleaned bam file from the former step.
+
+# Step 13: "Generate Pileup" on data from Step 12, and reference genome data from Step 1.
+# Make sure pileup output is considered "pileup" data rather than "tabular". Edit the output in your history, and under the "datatypes" tab, set new type
+# to "pileup".
+
+
+The last thing we will do is filter variants so that we only keep variants above a certain quality and a certain amount of read coverage to a certain base in the reference genome.
+
+# Step 14: "Filter pileup" on data from Step 13.
+# As in Step 13 - make sure that the datatype of the output is set to "pileup" rather than "tabular".
+# This output data is set to be the primary output of this certain workflow, which is done by highlighting and clicking the asterisk (*) after that
+# particular output file's entry in the workflow Edit mode.
+
+
+-------------------------------
+Looking at Your Data with IGV
+
+You can now display filtered pileup data using e.g. IGV or UCSC Genome Browser.
