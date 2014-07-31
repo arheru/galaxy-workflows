@@ -41,6 +41,8 @@ Merge alignments with BWA
 
 After converting the formats to Sanger, the fastq files are used as input files is the next step, where we first align each strand to the reads in our fastq files, and then merge the two alignments - both using the program BWA, a popular aligner using the Burrows-Wheeler transform.
 
+We also need to add something called read groups to our BAM file, because the tools contained in the tool suite Genome Analysis Toolkit (GATK) is going to need this information. Normally, you would do this one sequencing run at a time, but our data are pulled from multiple runs and merged, because of the way this data was downloaded from 1000 Genomes.
+
 # Step 6: "Map with BWA for Illumina" on data from Step 4 and 5. Uses reference genome data from Step 1.
 # Specify read groups in "BWA settings to use; Full parameter list". After specifying read groups, you will need to enter some required fields:
 #		Read group identiﬁer (ID)								e.g. "sample_1"
@@ -49,25 +51,29 @@ After converting the formats to Sanger, the fastq files are used as input files 
 #		Sample (SM).											e.g. "NA06984"
 
 
--------------------------------
-Merge alignments with BWA:
-	- Use tool "Map with BWA for Illumina".
-	- BWA produces binary .sai files that are processed and merged into .sam
-	- .sam uncompressed human-readable, so we need to convert into binary .bam files using "sam_to_bam" install from main toolshed into category "Convert formats". Sam-to-bam sorts and indexes the file automatically.
+BWA produces binary .sai files that are processed and merged into .sam, an uncompressed human-readable file format, so we need to convert into binary .bam files using the conversion tool "SAM-to-BAM". SAM-to-BAM sorts and indexes the file automatically, in that the entries are sorted in the order in which the reads align to the chromosome, and indexed so that further tools can access the sorted data without going through the whole file.
 
-
-	
+# Step 7: "SAM-to-BAM" on data from Step 6. Uses reference genome data from Step 1.
 
 
 -------------------------------
+Alignment cleanup
 
-Realign around indel sites:
-	- Use tool "Realigner Target Creator" to create location data for the next step.
-	- Use tool "Indel Realigner" to realign reads around probable indel sites.
-	TODO: Add calibration step with csv file. (Covariates)
+First, we'll realign locally around potential indels. This is done in two steps: First, we identify possible sites to realign.
 
+# Step 8: "Realigner Target Creator" on data from Step 7. Uses reference genome data from Step 1.
+
+
+Now we feed our gatk_intervals file back into a different GATK tool to actually perform the realignments.
+
+# Step 9: "Indel Realigner" on data from Step 8. Uses reference genome data from Step 1.
+
+
+-------------------------------
+
+
+-------------------------------
 Call variants:
-	- GATK (more and more accepted as better than samtools, which we will now use) not fully integrated into Galaxy just yet. 
 	- Samtools' Generate pileup (sam_pileup) from main toolshed.
 		- Make sure pileup output is considered "pileup" data rather than "tabular". Edit the output in your history, and under the "datatypes" tab, set new type to "pileup".
 	- Filter pileup using Samtools' pileup_parser from main toolshed.
